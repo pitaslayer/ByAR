@@ -7,10 +7,17 @@ namespace ByAR.Views
         [SerializeField]
         private GameObject mainMenuViewPrefab;
 
+        [SerializeField]
+        private int minWords, maxWords, minSentences, maxSentences, numParagraphs;
+
         private GameObject mainMenuViewContainer;
 
         private MainMenuView mainMenuView;
 
+        private RandomTextGenerator gen;
+
+        void Awake() => gen = new RandomTextGenerator();
+    
         public override void InitView()
         {
 
@@ -27,12 +34,10 @@ namespace ByAR.Views
       
         public void GetUserName(string name) => PlayerPrefs.SetString("USERNAME", name);
 
-        public void UpdateRandomText() => mainMenuView.UpdateRandomText(GenerateRandomText());
+        public void UpdateRandomText() => mainMenuView.UpdateRandomText(GenerateRandomText(gen));
 
-        private string GenerateRandomText()
-        {
-            return "";
-        }
+        private string GenerateRandomText(RandomTextGenerator generator) => generator.LoremIpsum(minWords, maxWords, minSentences, maxSentences,
+        numParagraphs);
 
         private void LoadARScene()
         {
